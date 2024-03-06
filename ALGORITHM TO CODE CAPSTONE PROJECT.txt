@@ -1,0 +1,191 @@
+
+
+CODE:
+
+
+def convert_algorithm_to_python(algorithm):
+    python_code = ""
+    in_while_loop = False
+    for line in algorithm.split("\n"):
+        line = line.strip()
+        if line.startswith("begin"):
+            python_code += "# Start\n"
+        elif line.startswith("assign"):
+            parts = line.split()
+            variable = parts[1]
+            value = parts[3]
+            python_code += f"{variable} = {value}\n"
+        elif line.startswith("print"):
+            parts = line.split('"')
+            if len(parts) >= 2:
+                message = parts[1]
+                python_code += f'print("{message}")\n'
+            else:
+                continue
+        elif line.startswith("while"):
+            condition = line.split("while")[1].strip()
+            python_code += f"while {condition}:\n"
+            in_while_loop = True
+        elif line.startswith("endwhile"):
+            python_code += "    pass\n"  # Placeholder to maintain indentation
+            in_while_loop = False
+        elif line.startswith("if"):
+            condition = line.split("if")[1].strip()
+            python_code += f"    if {condition}:\n"
+        elif line.startswith("then"):
+            continue
+        elif line.startswith("endif"):
+            python_code += "    pass\n"  # Placeholder to maintain indentation
+        elif line.startswith("start_procedure"):
+            parts = line.split()
+            function_name = parts[1]
+            params = parts[2]
+            python_code += f"def {function_name}({params}):\n"
+        elif line.startswith("end_procedure"):
+            python_code += "    pass\n"  # Placeholder to maintain indentation
+        elif line.startswith("for"):
+            parts = line.split()
+            if len(parts) >= 7:
+                variable = parts[1]
+                start = parts[4]
+                end = parts[6]
+                python_code += f"for {variable} in range({start}, {end} + 1):\n"
+            else:
+                continue
+        elif line.startswith("repeat"):
+            continue
+        elif line.startswith("endfor"):
+            python_code += "    pass\n"  # Placeholder to maintain indentation
+        elif line.startswith("end"):
+            python_code += "# End\n"
+    return python_code
+
+# Example algorithm
+algorithm = """
+begin
+assign a int 10
+assign b int 15
+print "Hello all"
+while a+b > 20
+if b > 15 
+then 
+c = a + b
+endif
+endwhile
+print " The answer is int , c "
+read int , d
+start_procedure myfunction(a int) 
+print int , c
+end_procedure
+for a from 1 to 10
+repeat
+b = b + a
+endfor
+print int , b
+print "Bye"
+end
+"""
+
+python_code = convert_algorithm_to_python(algorithm)
+print(python_code)
+
+
+
+
+
+ALGORITHMS:
+
+algorithm = """
+begin
+assign n int 5
+assign factorial int 1
+assign i int 1
+while i <= n
+factorial = factorial * i
+i = i + 1
+endwhile
+print "Factorial of", n, "is", factorial
+end
+"""
+
+Linear Search:
+
+algorithm = """
+begin
+assign arr list [3, 5, 7, 11, 13, 17, 19]
+assign target int 11
+assign found bool False
+assign index int 0
+while index < len(arr) and not found
+if arr[index] == target
+then
+found = True
+endif
+index = index + 1
+endwhile
+if found
+print "Element found at index", index - 1
+else
+print "Element not found"
+endif
+end
+"""
+Bubble Sort:
+
+algorithm = """
+begin
+assign arr list [64, 34, 25, 12, 22, 11, 90]
+assign n int len(arr)
+for i from 0 to n-1
+for j from 0 to n-i-1
+if arr[j] > arr[j+1]
+then
+assign temp int arr[j]
+arr[j] = arr[j+1]
+arr[j+1] = temp
+endif
+endfor
+endfor
+print "Sorted array:", arr
+end
+"""
+
+Palindrome Check:
+
+algorithm = """
+begin
+assign s str "radar"
+assign is_palindrome bool True
+assign i int 0
+assign j int len(s) - 1
+while i < j
+if s[i] != s[j]
+then
+is_palindrome = False
+break
+endif
+i = i + 1
+j = j - 1
+endwhile
+if is_palindrome
+print "Palindrome"
+else
+print "Not a palindrome"
+endif
+end
+"""
+
+GCD:
+
+algorithm = """
+begin
+assign a int 60
+assign b int 48
+while b != 0
+assign temp int b
+b = a % b
+a = temp
+endwhile
+print "GCD is", a
+end
+"""
